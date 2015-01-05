@@ -1,4 +1,4 @@
-meteor-autoform-contenteditable2
+comerc:autoform-contenteditable2
 ================================
 
-Custom "contenteditable" input type for AutoForm
+More features for "contenteditable" input type for [Meteor AutoForm](https://github.com/aldeed/meteor-autoform)
