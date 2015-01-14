@@ -1,7 +1,7 @@
 Package.describe({
   name: 'comerc:autoform-contenteditable2',
   summary: 'Extended "contenteditable" input type for AutoForm',
-  version: '1.0.0',
+  version: '1.0.1',
   git: 'https://github.com/comerc/meteor-autoform-contenteditable2.git'
 });
 

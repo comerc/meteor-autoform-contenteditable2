@@ -2,16 +2,12 @@
 // TODO: галочку в contenteditable, чтобы отправить редактируемый текст в форму
 // TODO: popup в contenteditable, когда текст выделен, с кнопками для комманд ctrl+b, ctrl+i, ctrl+u (см. MediumEditor.setToolbarPosition)
 // TODO: команду на зачеркивание в contenteditable (<s>)
-// TODO: label.for
+// TODO: индикатор ожидания записи для autosave, или это не работает Latency Compensation?
 
 AutoForm.addInputType("contenteditable2", {
   template: "afContenteditable2",
   valueOut: function () {
     return this.html();
-  },
-  valueIn: function (value) {
-    // console.log(value);
-    return value;
   },
   contextAdjust: function (context) {
     if (typeof context.atts["data-maxlength"] === "undefined" && typeof context.max === "number") {
@@ -21,6 +17,7 @@ AutoForm.addInputType("contenteditable2", {
       context.atts["data-placeholder"] = context.atts["placeholder"];
       delete context.atts["placeholder"];
     }
+    context.atts['title'] = defaults.title;
     return context;
   }
 });
@@ -39,6 +36,8 @@ Template.afContenteditable2.helpers({
 Template.afContenteditable2.events({
   "blur [contenteditable]": function (event, template) {
     var $element = template.$(event.target);
+    $element.attr('title', $element.data('title'));
+    $element.data('title', '');
     var pollTimeout = $element.data("poll-timeout");
     if (pollTimeout) {
       $element.data("poll-timeout", false);
@@ -57,6 +56,8 @@ Template.afContenteditable2.events({
   },
   "focus [contenteditable]": function (event, template) {
     var $element = template.$(event.target);
+    $element.data('title', $element.attr('title'));
+    $element.attr('title', '');
     $element.data("initial-value", $element.html());
     $element.data("previous-value", $element.html());
     function checkForContentChanged() {
@@ -106,3 +107,14 @@ Template.afContenteditable2.rendered = function() {
     $element.html(draft);
   }
 };
+
+var defaults = {
+  title: "Click for edit"
+};
+
+AutoForm.Contenteditable2 = {};
+AutoForm.Contenteditable2.setDefaults = function (o) {
+  if (_.has(o, "title")) {
+    defaults.title = o.title;
+  }
+}
