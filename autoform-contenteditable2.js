@@ -24,12 +24,16 @@ AutoForm.addInputType("contenteditable2", {
 
 Template.afContenteditable2.helpers({
   out: function () {
-    var atts = "";
-    for (key in this.atts) {
-      atts += ' ' + key + '="' + this.atts[key] + '"';
+    var atts = this.atts;
+    // TODO: if (style == 'bootstrap3') ...
+    // Add bootstrap class
+    atts = AutoForm.Utility.addClass(atts, "form-control");
+    var s = "";
+    for (key in atts) {
+      s += ' ' + key + '="' + atts[key] + '"';
     }
     // BUGFIX: https://github.com/aldeed/meteor-autoform/issues/383
-    return '<div contenteditable="true"' + atts + '>' + this.value + '</div>';
+    return '<div contenteditable="true"' + s + '>' + this.value + '</div>';
   }
 });
 
