@@ -5,4 +5,4 @@ Extended "contenteditable" input type for [Meteor AutoForm](https://github.com/a
 
 bootstrap styles
 ----------------
-just add class="form-control"
+just add `class="form-control"`
