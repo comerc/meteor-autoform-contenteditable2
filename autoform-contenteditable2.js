@@ -3,6 +3,7 @@
 // TODO: popup в contenteditable, когда текст выделен, с кнопками для комманд ctrl+b, ctrl+i, ctrl+u (см. MediumEditor.setToolbarPosition)
 // TODO: команду на зачеркивание в contenteditable (<s>)
 // TODO: индикатор ожидания записи для autosave, или это не работает Latency Compensation?
+// TODO: autosave - it blocks the interface: https://github.com/aldeed/meteor-autoform/issues/645
 
 AutoForm.addInputType("contenteditable2", {
   template: "afContenteditable2",
@@ -42,6 +43,9 @@ Template.afContenteditable2.events({
     var $element = template.$(event.target);
     $element.attr('title', $element.data('title'));
     $element.data('title', '');
+    if ($element.tooltip) {
+      $element.tooltip();
+    }
     var pollTimeout = $element.data("poll-timeout");
     if (pollTimeout) {
       $element.data("poll-timeout", false);
@@ -62,6 +66,9 @@ Template.afContenteditable2.events({
     var $element = template.$(event.target);
     $element.data('title', $element.attr('title'));
     $element.attr('title', '');
+    if ($element.tooltip) {
+      $element.tooltip('destroy');
+    }
     $element.data("initial-value", $element.html());
     $element.data("previous-value", $element.html());
     function checkForContentChanged() {
@@ -77,7 +84,7 @@ Template.afContenteditable2.events({
   },
   "keyup [contenteditable]": function (event, template) {
     // [esc] support
-    if (event.which == 27) {
+    if (event.which === 27) {
       var $element = template.$(event.target);
       $element.html($element.data("initial-value"));
       $element.blur();
@@ -105,20 +112,22 @@ Template.afContenteditable2.rendered = function() {
   try {
     draft = localStorage.getItem("draft4" + this.data.atts.id);
   } catch(e) {}
+  var $element = this.$("[contenteditable]#" + this.data.atts.id + ":first");
   if (draft) {
-    var $element = this.$("[contenteditable]#" + this.data.atts.id + ":first");
     $element.focus();
     $element.html(draft);
+  } else if ($element.tooltip) {
+    $element.tooltip();
   }
 };
 
 var defaults = {
-  title: "Click for edit"
+  title: ''
 };
 
 AutoForm.Contenteditable2 = {};
-AutoForm.Contenteditable2.setDefaults = function (o) {
-  if (_.has(o, "title")) {
-    defaults.title = o.title;
+AutoForm.Contenteditable2.setDefaults = function (options) {
+  if (_.has(options, "title")) {
+    defaults.title = options.title;
   }
 }
