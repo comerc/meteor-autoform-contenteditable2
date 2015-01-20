@@ -1,5 +1,7 @@
 [contenteditable]:empty:before {
     content: attr(data-placeholder);
     opacity: 0.5;
+    /* IE8 filter */
+    filter: ~"alpha(opacity=0.5)";
     display: inline-block;
 }
