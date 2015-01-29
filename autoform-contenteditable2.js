@@ -4,6 +4,8 @@
 // TODO: команду на зачеркивание в contenteditable (<s>)
 // TODO: индикатор ожидания записи для autosave, или это не работает Latency Compensation?
 // TODO: autosave - it blocks the interface: https://github.com/aldeed/meteor-autoform/issues/645
+// TODO: манипуляция выделением https://github.com/JackAdams/meteor-editable-text-wysiwyg/blob/master/lib/wysiwyg.js#L9
+// TODO: hot keys https://github.com/jeresig/jquery.hotkeys
 
 AutoForm.addInputType("contenteditable2", {
   template: "afContenteditable2",
