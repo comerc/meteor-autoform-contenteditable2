@@ -6,7 +6,7 @@
 // TODO: autosave - it blocks the interface: https://github.com/aldeed/meteor-autoform/issues/645
 // TODO: манипуляция выделением https://github.com/JackAdams/meteor-editable-text-wysiwyg/blob/master/lib/wysiwyg.js#L9
 // TODO: hot keys https://github.com/jeresig/jquery.hotkeys
-// FIXME: курсор перескакивает на пару пикселей выше, когда поле ввода пустое 
+// FIXME: курсор перескакивает на пару пикселей выше, когда поле ввода пустое
 
 /* support of $.browser
 var matched, browser;
@@ -50,19 +50,20 @@ jQuery.browser = browser;
 
 AutoForm.addInputType("contenteditable2", {
   template: "afContenteditable2",
-  valueIn: function (value) {
-    return value.replace(/\n/g, "<br>");
-  },
+  // valueIn: function (value) {
+  //   return value.replace(/\n/g, "<br>");
+  // },
   valueOut: function () {
-    // return this.html();
-    var $ce = $("<pre />").html(this.html());
-    if ($.browser.webkit)
-      $ce.find("div").replaceWith(function() { return "\n" + this.innerHTML; });
-    if ($.browser.msie)
-      $ce.find("p").replaceWith(function() { return this.innerHTML + "<br>"; });
-    // if ($.browser.mozilla || $.browser.opera || $.browser.msie)
-      $ce.find("br").replaceWith("\n");
-    return $ce.text();
+    // var $ce = $("<pre />").html(this.html());
+    // if ($.browser.webkit)
+    //   $ce.find("div").replaceWith(function() { return "\n" + this.innerHTML; });
+    // if ($.browser.msie)
+    //   $ce.find("p").replaceWith(function() { return this.innerHTML + "<br>"; });
+    // // if ($.browser.mozilla || $.browser.opera || $.browser.msie)
+    //   $ce.find("br").replaceWith("\n");
+    // return $ce.text();
+    // XXX use https://github.com/yabwe/medium-editor
+    return this.html();
   },
   contextAdjust: function (context) {
     if (typeof context.atts["data-maxlength"] === "undefined" && typeof context.max === "number") {
