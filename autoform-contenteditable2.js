@@ -6,6 +6,7 @@
 // TODO: autosave - it blocks the interface: https://github.com/aldeed/meteor-autoform/issues/645
 // TODO: манипуляция выделением https://github.com/JackAdams/meteor-editable-text-wysiwyg/blob/master/lib/wysiwyg.js#L9
 // TODO: hot keys https://github.com/jeresig/jquery.hotkeys
+// FIXME: курсор перескакивает на пару пикселей выше, когда поле ввода пустое 
 
 /* support of $.browser
 var matched, browser;
