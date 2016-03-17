@@ -7,6 +7,7 @@
 // TODO: манипуляция выделением https://github.com/JackAdams/meteor-editable-text-wysiwyg/blob/master/lib/wysiwyg.js#L9
 // TODO: hot keys https://github.com/jeresig/jquery.hotkeys
 
+/* support of $.browser
 var matched, browser;
 
 jQuery.uaMatch = function( ua ) {
@@ -44,6 +45,7 @@ if ( browser.chrome ) {
 }
 
 jQuery.browser = browser;
+*/
 
 AutoForm.addInputType("contenteditable2", {
   template: "afContenteditable2",
