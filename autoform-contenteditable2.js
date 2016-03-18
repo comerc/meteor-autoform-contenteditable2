@@ -148,30 +148,32 @@ Template.afContenteditable2.events({
   "input2 [contenteditable]": function (event, template) {
     var $element = template.$(event.target);
     try {
-      localStorage.setItem("draft4" + $element.attr("id"), $element.html());
+      localStorage.setItem($element.attr("draft_id"), $element.html());
     } catch(e) {}
   },
   "change [contenteditable]": function (event, template) {
     var $element = template.$(event.target);
     try {
-      localStorage.removeItem("draft4" + $element.attr("id"));
+      localStorage.removeItem($element.attr("draft_id"));
     } catch(e) {}
   }
 });
 
 Template.afContenteditable2.rendered = function() {
-  if (!this.data.atts.id) {
-    throw new Error("Please set id for contenteditable field: " + this.data.atts.name);
-  }
+  // FIXME не работает при прямой перезагрузке страницы из строки браузера
+  var dataForForm = AutoForm.getCurrentDataForForm();
+  var draft_id = "draft4" + dataForForm.id + "_" + dataForForm.doc._id + "_" + this.data.atts.name;
+  var $element = this.$("[contenteditable]");
+  $element.attr("draft_id", draft_id);
   var draft;
   try {
-    draft = localStorage.getItem("draft4" + this.data.atts.id);
+    draft = localStorage.getItem(draft_id);
   } catch(e) {}
-  var $element = this.$("[contenteditable]#" + this.data.atts.id + ":first");
   if (draft) {
     $element.focus();
     $element.html(draft);
-  } else if ($element.tooltip) {
+  } else
+  if ($element.tooltip) {
     $element.tooltip();
   }
 };
